@@ -4,21 +4,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 
-# 1d
-def feature_matrix(x, num_features):
-    """
-    x: array with x values
-    num_features: the degree of polynomial 1+x+...+x^p
-
-    returns:
-    X: The feature matrix,a 2D numpy array with a column for each feature
-    """
-
-    x = x.squeeze()
-
-    return jnp.array([x**i for i in range(num_features)]).T
-
-
 def random_partition(X, y, n_batches):
     batch_size = int(y.shape[0] / n_batches)
     batches = []
