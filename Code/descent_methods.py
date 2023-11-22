@@ -4,36 +4,6 @@ import jax.numpy as jnp
 import numpy as np
 
 
-###
-from Code.utilities import MSELoss
-
-
-### Original for benchmark ... ONLY for OLS ......... NB
-### The methods below are the general ones used throughout...
-def GD_original(
-    X_train, y_train, X_test, y_test, grad_method, model, beta0, lr, n_epochs
-):
-    loss_list = []
-    loss_list2 = []
-
-    # Initialise
-    betas = [beta0]
-
-    # Perform training
-    for i in range(n_epochs):
-        # Evaluate gradient at previous x
-        grad = grad_method(betas[-1], X_train, y_train)
-
-        # grad = derivative(betas[-1])
-        loss_list.append(MSELoss(y_train, model(betas[-1], X_train)))
-        loss_list2.append(MSELoss(y_test, model(betas[-1], X_test)))
-        # Perform step
-        betas.append({"b": betas[-1]["b"] - lr * grad["b"]})
-
-    # Return the found values of x
-    return betas, loss_list, loss_list2
-
-
 ########################################################################################################################################
 ########################################################################################################################################
 ### General descent interface, specialised with various step methods in functions below
