@@ -80,3 +80,16 @@
   "output_activation": "softmax",
   "loss_function": "<lambda>"
 }
+{
+  "test_accuracy": 0.6312000155448914,
+  "train_accuracy": 0.6300666928291321,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 5,
+  "batches": 30,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 40,
+  "hidden_activation": "sigmoid",
+  "output_activation": "softmax",
+  "loss_function": "<lambda>"
+}
