@@ -19,8 +19,6 @@ def softmax_model(beta, X):
     out = jnp.dot(X.copy(), beta[f"W1"]) + beta[f"b1"]
 
     # Softmax to get probabilities
-    print(out)
-
     out = jnp.exp(out) / jnp.sum(jnp.exp(out))
 
     return out

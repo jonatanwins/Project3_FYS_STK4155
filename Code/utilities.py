@@ -1,44 +1,11 @@
 import jax.numpy as jnp
-from jax import grad
 import numpy as np
 from matplotlib import pyplot as plt
-
-
-def random_partition(X, y, n_batches):
-    batch_size = int(y.shape[0] / n_batches)
-    batches = []
-
-    for i in range(n_batches):
-        index = list(range(i * batch_size, (i + 1) * batch_size))
-        batches.append((X[index, :], y[index]))
-
-    return batches, batch_size
-
-
-def train_test_split(X, Y, percentage, test_index=None):
-    """
-    X: Feature matrix
-    Y: Label vector(size=(n, 1))
-    Percentage: How much of the dataset should be used as a test set.
-    """
-
-    n = X.shape[0]
-    if test_index is None:
-        test_index = np.random.choice(n, round(n * percentage), replace=False)
-    test_X = X[test_index]
-    test_Y = Y[test_index]
-
-    train_X = np.delete(X, test_index, axis=0)
-    train_Y = np.delete(Y, test_index, axis=0)
-
-    return train_X, train_Y, test_X, test_Y, test_index
 
 
 ##################################################
 ##################### Loss functions
 ##################################################
-
-
 def MSELoss(y, y_pred):
     """MSE loss of prediction array.
 
@@ -51,57 +18,32 @@ def MSELoss(y, y_pred):
     """
     return jnp.sum(jnp.power(y - y_pred, 2)) / y.shape[0]
 
+def cross_entropy_loss(y_pred, y_i):
 
-# Defines loss function. Can use these with JAX grad
-def MSELoss_method(model):
-    return lambda beta, X, y: MSELoss(model(beta, X), y)
+    # Safe log clipping
+    y_pred_new = jnp.clip(y_pred, 0.0000001, 0.9999999)
 
+    # Divide by number of samples
+    return - jnp.sum(y_i*jnp.log(y_pred_new)) / y_i.shape[0]
 
-def _ridge_term(beta):
+##################### JAX grad compatible
+def ridge_term(beta):
     s = 0.0
     for key in beta.keys():
         s += jnp.sum(jnp.power(beta[key], 2))
     return s
 
+def MSELoss_method(model, lam=0):
+    if lam == 0:
+        return lambda beta, X, y: MSELoss(model(beta, X), y)
+    else:
+        return lambda beta, X, y: MSELoss(model(beta, X), y) + lam*ridge_term(beta)
 
-def ridge_loss_method(model, lam):
-    return lambda beta, X, y: MSELoss(model(beta, X), y) + _ridge_term(beta) * lam
-
-
-##########################################################
-##################### Gradients for OLS and RIDGE
-##########################################################
-
-
-#### OLS Analytic
-def _OLS_grad(beta, X, y, model):
-    n = y.shape[0]
-    return 2 * (np.dot(X.T, (model(beta, X) - y))) / n
-
-
-def OLS_train_analgrad(model):
-    return lambda beta, X, y: {"b": _OLS_grad(beta, X, y, model)}
-
-
-#### OLS JAX
-def OLS_train_autograd(model):
-    return grad(MSELoss_method(model))
-
-
-#### Ridge analytic
-def _ridge_grad(beta, X, y, model, lam):
-    mse_grad = _OLS_grad(beta, X, y, model)
-    l2_grad = 2 * lam * beta["b"]
-    return mse_grad + l2_grad
-
-
-def ridge_train_analgrad(model, lam):
-    return lambda beta, X, y: {"b": _ridge_grad(beta, X, y, model, lam)}
-
-
-#### Ridge automatic
-def ridge_train_autograd(model, lam):
-    return grad(ridge_loss_method(model, lam))
+def cross_entropy_loss_method(model, lam=0):
+    if lam == 0:
+        return lambda beta, X, y: cross_entropy_loss(model(beta, X), y)
+    else:
+        return lambda beta, X, y: cross_entropy_loss(model(beta, X), y) + lam*ridge_term(beta)
 
 
 ##########################################################

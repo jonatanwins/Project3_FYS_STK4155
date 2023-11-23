@@ -1,9 +1,18 @@
-from Code.utilities import random_partition
-
 import jax.numpy as jnp
 import numpy as np
 from tqdm import tqdm
 
+
+# Used to pick batches
+def random_partition(X, y, n_batches):
+    batch_size = int(y.shape[0] / n_batches)
+    batches = []
+
+    for i in range(n_batches):
+        index = list(range(i * batch_size, (i + 1) * batch_size))
+        batches.append((X[index, :], y[index]))
+
+    return batches, batch_size
 
 ########################################################################################################################################
 ########################################################################################################################################
