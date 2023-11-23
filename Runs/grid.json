@@ -1,0 +1,416 @@
+{
+  "test_accuracy": 0.9696999788284302,
+  "train_accuracy": 0.9911500215530396,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 40,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.8833000063896179,
+  "train_accuracy": 0.8902333378791809,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 1,
+  "node_per_hidden": 5,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.8894000053405762,
+  "train_accuracy": 0.8982499837875366,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 2,
+  "node_per_hidden": 5,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.8996999859809875,
+  "train_accuracy": 0.9065333604812622,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 3,
+  "node_per_hidden": 5,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.8738999962806702,
+  "train_accuracy": 0.8884666562080383,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 4,
+  "node_per_hidden": 5,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.8615999817848206,
+  "train_accuracy": 0.8756999969482422,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 5,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.8852999806404114,
+  "train_accuracy": 0.8962166905403137,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 6,
+  "node_per_hidden": 5,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9395999908447266,
+  "train_accuracy": 0.9472333192825317,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 1,
+  "node_per_hidden": 10,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9370999932289124,
+  "train_accuracy": 0.9524833559989929,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 2,
+  "node_per_hidden": 10,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9391000270843506,
+  "train_accuracy": 0.9563666582107544,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 3,
+  "node_per_hidden": 10,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9320999979972839,
+  "train_accuracy": 0.9505333304405212,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 4,
+  "node_per_hidden": 10,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9391000270843506,
+  "train_accuracy": 0.958299994468689,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 10,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9429000020027161,
+  "train_accuracy": 0.9592833518981934,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 6,
+  "node_per_hidden": 10,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9613000154495239,
+  "train_accuracy": 0.9756666421890259,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 1,
+  "node_per_hidden": 20,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9623000025749207,
+  "train_accuracy": 0.9814833402633667,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 2,
+  "node_per_hidden": 20,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9631999731063843,
+  "train_accuracy": 0.9855166673660278,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 3,
+  "node_per_hidden": 20,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9577999711036682,
+  "train_accuracy": 0.9767333269119263,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 4,
+  "node_per_hidden": 20,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9587000012397766,
+  "train_accuracy": 0.9828500151634216,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 20,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9592000246047974,
+  "train_accuracy": 0.9867833256721497,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 6,
+  "node_per_hidden": 20,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9663000106811523,
+  "train_accuracy": 0.9815666675567627,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 1,
+  "node_per_hidden": 30,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.967199981212616,
+  "train_accuracy": 0.9880499839782715,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 2,
+  "node_per_hidden": 30,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9700999855995178,
+  "train_accuracy": 0.991183340549469,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 3,
+  "node_per_hidden": 30,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9675999879837036,
+  "train_accuracy": 0.9886000156402588,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 4,
+  "node_per_hidden": 30,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9627000093460083,
+  "train_accuracy": 0.9890833497047424,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 30,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9607999920845032,
+  "train_accuracy": 0.9816166758537292,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 6,
+  "node_per_hidden": 30,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9714999794960022,
+  "train_accuracy": 0.9879999756813049,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 1,
+  "node_per_hidden": 40,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9710999727249146,
+  "train_accuracy": 0.9922333359718323,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 2,
+  "node_per_hidden": 40,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9731000065803528,
+  "train_accuracy": 0.9944166541099548,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 3,
+  "node_per_hidden": 40,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9711999893188477,
+  "train_accuracy": 0.993149995803833,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 4,
+  "node_per_hidden": 40,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9696000218391418,
+  "train_accuracy": 0.9913166761398315,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 40,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.9700000286102295,
+  "train_accuracy": 0.9910666942596436,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 6,
+  "node_per_hidden": 40,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
+{
+  "test_accuracy": 0.972000002861023,
+  "train_accuracy": 0.9880499839782715,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 30,
+  "hidden_layer_num": 1,
+  "node_per_hidden": 50,
+  "hidden_activation": "tanh",
+  "output_activation": "softmax",
+  "loss_function": "CE"
+}
