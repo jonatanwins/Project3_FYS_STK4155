@@ -2,6 +2,7 @@ from Code.utilities import random_partition
 
 import jax.numpy as jnp
 import numpy as np
+from tqdm import tqdm
 
 
 ########################################################################################################################################
@@ -55,7 +56,7 @@ def _SGD_general(
     beta_current = beta0.copy()
 
     # Perform training
-    for epoch in range(n_epochs):
+    for epoch in tqdm(range(n_epochs)):
         if print_epoch_num == True:
             print(f"Epoch: {epoch}")
 
