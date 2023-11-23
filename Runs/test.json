@@ -18,3 +18,65 @@
   "node_per_hidden": 40,
   "hidden_activation": "sigmoid"
 }
+{
+  "test_accuracy": 0.9334999918937683,
+  "train_accuracy": 0.9646499752998352,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 300,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 40,
+  "hidden_activation": "sigmoid"
+}
+{
+  "test_accuracy": 0.9344000220298767,
+  "train_accuracy": 0.9549333453178406,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 50,
+  "batches": 20,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 40,
+  "hidden_activation": "sigmoid",
+  "output_activation": "softmax",
+  "loss_function": "<lambda>"
+}
+{
+  "test_accuracy": 0.5314000248908997,
+  "train_accuracy": 0.5335500240325928,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 5,
+  "batches": 30,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 40,
+  "hidden_activation": "sigmoid",
+  "output_activation": "softmax",
+  "loss_function": "<lambda>"
+}
+{
+  "test_accuracy": 0.582099974155426,
+  "train_accuracy": 0.5868833065032959,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 5,
+  "batches": 30,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 40,
+  "hidden_activation": "sigmoid",
+  "output_activation": "softmax",
+  "loss_function": "<lambda>"
+}
+{
+  "test_accuracy": 0.7293999791145325,
+  "train_accuracy": 0.7371666431427002,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 5,
+  "batches": 30,
+  "hidden_layer_num": 5,
+  "node_per_hidden": 40,
+  "hidden_activation": "sigmoid",
+  "output_activation": "softmax",
+  "loss_function": "<lambda>"
+}

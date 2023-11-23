@@ -2,6 +2,34 @@ import jax.numpy as jnp
 import numpy as np
 from matplotlib import pyplot as plt
 
+##################################################
+##################### Evaluation tools
+##################################################
+def predict(model, beta, X):
+    """
+    Returns the predicted number for each sample in X,
+    We choose the number with largest "probability"
+    """
+
+    # Use the neural network
+    y = model(beta, X)
+
+    # Find best guess index
+    predictions = jnp.array([jnp.argmax(y_sample) for y_sample in y])
+
+    return predictions
+
+# Define new accuracy function
+def accuracy_func(model, beta, X, y):
+    """
+    ACCURACY = percentage guessed correctly    
+    """
+    # Find indeces corresponding to ground truth
+    predictions_gt = np.array([np.argmax(y_sample) for y_sample in y])
+    predictions    = predict(model, beta, X)
+
+    # return 1-jnp.mean(jnp.abs(predictions_gt-predictions))
+    return float(np.sum(predictions_gt == predictions) / predictions.shape[0])
 
 ##################################################
 ##################### Loss functions
