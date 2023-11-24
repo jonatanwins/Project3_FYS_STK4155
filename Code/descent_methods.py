@@ -74,9 +74,12 @@ def _SGD_general(
             result["test_loss_list"] = [test_loss_func(beta0, X_test, y_test)]
 
     # Initialise step
-    v = {}
-    for key in keys:
-        v[key] = jnp.zeros_like(beta0[key])
+    # v = {}
+    v = []
+    for i in range(len(beta0["layers"])):
+        v.append([jnp.zeros_like(beta0["layers"][i][0]), jnp.zeros_like(beta0["layers"][i][1])])
+    # for key in keys:
+    #     v[key] = jnp.zeros_like(beta0[key])
 
     # Partition in batches
     batches, batch_size = random_partition(X_train, y_train, n_batches)
@@ -97,8 +100,11 @@ def _SGD_general(
             X_b, y_b = batches[np.random.randint(n_batches)]
             # Divide by batch_size to get avg contribution from training samples
             gradients = grad_method(beta_current, X_b, y_b)
-            for key in gradients.keys():
-                gradients[key] = gradients[key] / batch_size
+            # for key in gradients.keys():
+            #     gradients[key] = gradients[key] / batch_size
+            for i in range(len(gradients["layers"])):
+                gradients["layers"][i][0] /= batch_size
+                gradients["layers"][i][1] /= batch_size
 
             # Perform a step with desired method
             beta_current, tools = step_func(beta_current, tools, gradients)
@@ -370,23 +376,34 @@ def SGD_RMS_prop(
 def init_adam(lr, weights, beta1, beta2, delta):
     tools = {
         "eta": lr,
-        "s": {},
-        "r": {},
+        "s": [],
+        "r": [],
         "beta1": beta1,
         "beta2": beta2,
         "delta": delta,
     }
 
     # Reset accumulation variables
-    for key in weights.keys():
-        tools["s"][key] = 0
-        tools["r"][key] = 0
+    
+    for i in range(len(weights["layers"])):
+        tools["s"].append([jnp.zeros_like(weights["layers"][i][0]), jnp.zeros_like(weights["layers"][i][1])])
+        tools["r"].append([jnp.zeros_like(weights["layers"][i][0]), jnp.zeros_like(weights["layers"][i][1])])
+
+
+    # for key in weights.keys():
+    #     tools["s"][key] = 0
+    #     tools["r"][key] = 0
 
     return lambda epoch, gamma, v: tools | {"epoch": epoch, "gamma": gamma, "v": v}
 
 
 def step_adam(beta_prev, adam_variables, gradients):
     new_beta = {}
+
+    for i in range(len(beta_prev["layers"])):
+        v.append([jnp.zeros_like(gradients["layers"][i][0]), jnp.zeros_like(gradients["layers"][i][1])])
+        tools["s"].append([jnp.zeros_like(weights["layers"][i][0]), jnp.zeros_like(weights["layers"][i][1])])
+
 
     for key in beta_prev.keys():
         # Accumulate and compute firsr and second term
