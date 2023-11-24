@@ -1,38 +1,18 @@
-from Code.utilities import random_partition
-
 import jax.numpy as jnp
 import numpy as np
+from tqdm.auto import tqdm
 
 
-###
-from Code.utilities import MSELoss
+# Used to pick batches
+def random_partition(X, y, n_batches):
+    batch_size = int(y.shape[0] / n_batches)
+    batches = []
 
+    for i in range(n_batches):
+        index = list(range(i * batch_size, (i + 1) * batch_size))
+        batches.append((X[index, :], y[index]))
 
-### Original for benchmark ... ONLY for OLS ......... NB
-### The methods below are the general ones used throughout...
-def GD_original(
-    X_train, y_train, X_test, y_test, grad_method, model, beta0, lr, n_epochs
-):
-    loss_list = []
-    loss_list2 = []
-
-    # Initialise
-    betas = [beta0]
-
-    # Perform training
-    for i in range(n_epochs):
-        # Evaluate gradient at previous x
-        grad = grad_method(betas[-1], X_train, y_train)
-
-        # grad = derivative(betas[-1])
-        loss_list.append(MSELoss(y_train, model(betas[-1], X_train)))
-        loss_list2.append(MSELoss(y_test, model(betas[-1], X_test)))
-        # Perform step
-        betas.append({"b": betas[-1]["b"] - lr * grad["b"]})
-
-    # Return the found values of x
-    return betas, loss_list, loss_list2
-
+    return batches, batch_size
 
 ########################################################################################################################################
 ########################################################################################################################################
@@ -54,7 +34,6 @@ def _SGD_general(
     n_batches=5,
     test_loss_func=None,
     gamma=0.0,
-    print_epoch_num=False,
 ):
     # Get parameter keys
     keys = beta0.keys()
@@ -85,14 +64,13 @@ def _SGD_general(
     beta_current = beta0.copy()
 
     # Perform training
-    for epoch in range(n_epochs):
-        if print_epoch_num == True:
-            print(f"Epoch: {epoch}")
+    for epoch in tqdm(range(n_epochs)):
 
         # Accumulation variables
         tools = init_func(epoch, gamma, v)
 
-        for i in range(n_batches):
+        for i in tqdm(range(n_batches), leave=False):
+            
             # Draw a batch and compute gradients for this sub-epoch
             X_b, y_b = batches[np.random.randint(n_batches)]
             # Divide by batch_size to get avg contribution from training samples
