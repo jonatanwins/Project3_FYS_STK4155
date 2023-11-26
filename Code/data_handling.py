@@ -28,7 +28,7 @@ def train_test_split(X, Y, percentage, test_index=None):
 ##################################################
 ##################### Data loading
 ##################################################
-def load_MNIST_8(seed=42):
+def load_MNIST_8(seed=42, flatten_images=False):
 
     # download MNIST dataset
     digits = datasets.load_digits()
@@ -39,10 +39,13 @@ def load_MNIST_8(seed=42):
 
     # RGB images have a depth of 3
     # our images are grayscale so they should have a depth of 1
-    inputs = inputs[:,:,:,np.newaxis]
+    X = inputs[:,:,:,np.newaxis].reshape(inputs.shape[0], 8, 8)
+    
 
     # Make feature matrix. We flatten each image and use these 64 values as our input layer
-    X = inputs.reshape((inputs.shape[0], 64))
+    # Flatten for the non-convolutional models
+    if flatten_images:
+        X = inputs.reshape((inputs.shape[0], 64))
 
     # Convert the numbers in y to arrays with 0's and 1's corresponding to classes 
     y = labels.reshape((labels.shape[0]))

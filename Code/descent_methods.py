@@ -4,19 +4,19 @@ from tqdm.auto import tqdm
 
 
 # Used to pick batches
-def random_partition(X, y, n_batches):
-    batch_size = int(y.shape[0] / n_batches)
+def partition(X, y, batch_size):
+    n_batches = int(y.shape[0] / batch_size)
     batches = []
 
     for i in range(n_batches):
         index = list(range(i * batch_size, (i + 1) * batch_size))
         batches.append((X[index, :], y[index]))
 
-    return batches, batch_size
+    return batches, n_batches
 
 ########################################################################################################################################
 ########################################################################################################################################
-### General descent interface, specialised with various step methods in functions below
+### General descent interface, specialised with various step methods in functions below (ONLY ADAM THIS TIME)
 ########################################################################################################################################
 ########################################################################################################################################
 
@@ -31,7 +31,7 @@ def _SGD_general(
     step_func,
     beta0: dict,
     n_epochs=50,
-    n_batches=5,
+    batch_size=32,
     test_loss_func=None,
     gamma=0.0,
 ):
@@ -58,7 +58,7 @@ def _SGD_general(
         v[key] = jnp.zeros_like(beta0[key])
 
     # Partition in batches
-    batches, batch_size = random_partition(X_train, y_train, n_batches)
+    batches, n_batches = partition(X_train, y_train, batch_size)
 
     # Store current beta
     beta_current = beta0.copy()
@@ -105,242 +105,6 @@ def _SGD_general(
     result["beta_final"] = beta_current
 
     return result
-
-
-############################
-####### SGD
-############################
-def init_SGD(lr):
-    tools = {
-        "lr": lr,
-    }
-
-    return lambda epoch, gamma, v: tools | {"epoch": epoch, "gamma": gamma, "v": v}
-
-
-def step_SGD(beta_prev, variables, gradients):
-    new_beta = {}
-
-    for key in beta_prev.keys():
-        # SGD step
-        update = variables["lr"] * gradients[key]
-
-        # Perform step, if gamma != 0 it is done with momentum...
-        variables["v"][key] = variables["gamma"] * variables["v"][key] + update
-        new_beta[key] = beta_prev[key] - variables["v"][key]
-
-    return new_beta, variables
-
-
-def SGD(
-    X_train,
-    y_train,
-    X_test,
-    y_test,
-    grad_method,
-    beta0: dict,
-    n_epochs: int = 50,
-    n_batches=5,
-    test_loss_func=None,
-    lr: float = 0.01,  # learning rate
-    gamma: float = 0.0,  # momentum
-):
-    init_func = init_SGD(lr)
-
-    return _SGD_general(
-        X_train,
-        y_train,
-        X_test,
-        y_test,
-        grad_method,
-        init_func,
-        step_SGD,
-        beta0,
-        n_epochs=n_epochs,
-        n_batches=n_batches,
-        test_loss_func=test_loss_func,
-        gamma=gamma,
-    )
-
-
-############################
-####### Plain Gradient descent
-############################
-def GD(
-    X_train,
-    y_train,
-    X_test,
-    y_test,
-    grad_method,
-    beta0: dict,
-    n_epochs: int = 50,
-    test_loss_func=None,
-    lr: float = 0.01,  # learning rate
-    gamma: float = 0.0,  # momentum
-    **kwargs,  # Want to call the method with same signature as the others...
-):
-    # USE SGD with full batch
-    batch_size = y_train.shape[0]
-
-    return SGD(
-        X_train,
-        y_train,
-        X_test,
-        y_test,
-        grad_method,
-        beta0,
-        n_epochs=n_epochs,
-        n_batches=1,
-        test_loss_func=test_loss_func,
-        lr=lr,  # learning rate
-        gamma=gamma,  # momentum
-    )
-
-
-############################
-####### Adagrad
-############################
-def init_adagrad(lr, weights, delta):
-    tools = {
-        "eta": lr,
-        "r": {},
-        "delta": delta,
-    }
-
-    # Reset accumulation variables
-    for key in weights.keys():
-        tools["r"][key] = 0  # jnp.zeros_like(weights[key]), blir samme svar
-
-    return lambda epoch, gamma, v: tools | {"epoch": epoch, "gamma": gamma, "v": v}
-
-
-def step_adagrad(beta_prev, variables, gradients):
-    new_beta = {}
-
-    for key in beta_prev.keys():
-        # Accumulate to total gradient
-        variables["r"][key] += gradients[key] * gradients[key]
-
-        # Adagrad scaling, multiply gradient by downscaled learning rate
-        lr_times_grad = (
-            gradients[key]
-            * variables["eta"]
-            / (variables["delta"] + jnp.sqrt(variables["r"][key]))
-        )
-
-        # Perform step, if gamma != 0 it is done with momentum...
-        variables["v"][key] = variables["gamma"] * variables["v"][key] + lr_times_grad
-        new_beta[key] = beta_prev[key] - variables["v"][key]
-
-    return new_beta, variables
-
-
-def SGD_adagrad(
-    X_train,
-    y_train,
-    X_test,
-    y_test,
-    grad_method,
-    beta0: dict,
-    n_epochs: int = 50,
-    n_batches=5,
-    test_loss_func=None,
-    lr: float = 0.01,  # learning rate
-    gamma: float = 0.0,  # momentum
-    delta: float = 1e-8,  # safe div
-):
-    init_func = init_adagrad(lr, beta0, delta)
-
-    return _SGD_general(
-        X_train,
-        y_train,
-        X_test,
-        y_test,
-        grad_method,
-        init_func,
-        step_adagrad,
-        beta0,
-        n_epochs=n_epochs,
-        n_batches=n_batches,
-        test_loss_func=test_loss_func,
-        gamma=gamma,
-    )
-
-
-############################
-####### RMS_prop
-############################
-def init_RMS_prop(lr, weights, delta, rho):
-    tools = {
-        "eta": lr,
-        "Giter": {},
-        "delta": delta,
-        "rho": rho,
-    }
-
-    # Reset accumulation variables
-    for key in weights.keys():
-        tools["Giter"][key] = 0.0
-
-    return lambda epoch, gamma, v: tools | {"epoch": epoch, "gamma": gamma, "v": v}
-
-
-def step_RMS_prop(beta_prev, variables, gradients):
-    new_beta = {}
-
-    for key in beta_prev.keys():
-        # Accumulate
-        variables["Giter"][key] = (
-            variables["rho"] * variables["Giter"][key]
-            + (1 - variables["rho"]) * gradients[key] * gradients[key]
-        )
-
-        # RMS prop scaling
-        update = (
-            gradients[key]
-            * variables["eta"]
-            / (variables["delta"] + jnp.sqrt(variables["Giter"][key]))
-        )
-
-        # Perform step, if gamma != 0 it is done with momentum...
-        variables["v"][key] = variables["gamma"] * variables["v"][key] + update
-        new_beta[key] = beta_prev[key] - variables["v"][key]
-
-    return new_beta, variables
-
-
-def SGD_RMS_prop(
-    X_train,
-    y_train,
-    X_test,
-    y_test,
-    grad_method,
-    beta0: dict,
-    n_epochs: int = 50,
-    n_batches: int = 5,
-    test_loss_func=None,
-    lr: float = 0.01,  # learning rate
-    gamma: float = 0.0,  # momentum
-    delta: float = 1e-8,  # safe div
-    rho: float = 0.99,
-):
-    init_func = init_RMS_prop(lr, beta0, delta, rho)
-
-    return _SGD_general(
-        X_train,
-        y_train,
-        X_test,
-        y_test,
-        grad_method,
-        init_func,
-        step_RMS_prop,
-        beta0,
-        n_epochs=n_epochs,
-        n_batches=n_batches,
-        test_loss_func=test_loss_func,
-        gamma=gamma,
-    )
-
 
 ############################
 ####### Adam
@@ -408,7 +172,7 @@ def SGD_adam(
     grad_method,
     beta0: dict,
     n_epochs: int = 50,
-    n_batches: int = 5,
+    batch_size: int = 32,
     test_loss_func=None,
     lr: float = 0.01,
     gamma: float = 0.0,
@@ -428,7 +192,7 @@ def SGD_adam(
         step_adam,
         beta0,
         n_epochs=n_epochs,
-        n_batches=n_batches,
+        batch_size=batch_size,
         test_loss_func=test_loss_func,
         gamma=gamma,
     )
