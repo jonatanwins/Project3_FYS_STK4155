@@ -97,9 +97,8 @@ def append_run_to_file(filepath, data):
     with open(filepath, 'a+') as file:
         file.seek(0)  # Move the cursor to the beginning in case the file is empty
 
-        for item in data:
-            json_string = json.dumps(item, indent=2)
-            file.write(json_string + '\n')
+        json_string = json.dumps(data, indent=2)
+        file.write(json_string + ',\n')
 
 
 def load_run_from_file(filepath):
@@ -108,6 +107,7 @@ def load_run_from_file(filepath):
     """
 
     with open(filepath, 'r') as file:
-        data = [json.loads(line) for line in file]
+        json_string = "[" + file.read()[0:-2] + "]"
+        data = json.loads(json_string)
 
     return data

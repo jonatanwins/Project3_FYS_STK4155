@@ -73,30 +73,3 @@ def cross_entropy_loss_method(model, lam=0):
     else:
         return lambda beta, X, y: cross_entropy_loss(model(beta, X), y) + lam*ridge_term(beta)
 
-
-##########################################################
-##################### Some plotting ######################
-##########################################################
-
-
-def plot_test_results(test_loss_list, train_loss_list, num_batches, ylabel="MSE"):
-    # Create a figure with two subplots
-    fig, axs = plt.subplots(1, 2, figsize=(9, 3))  # 1 row, 2 columns
-
-    # Subplot 1
-    axs[0].plot(test_loss_list, label="test")
-    axs[0].plot(train_loss_list, label="train")
-    axs[0].set_xlabel("Training step")
-    axs[0].set_ylabel(ylabel)
-    axs[0].set_title("Over all sub-epochs")
-    axs[0].legend()
-
-    # Subplot 2
-    axs[1].plot(test_loss_list[::num_batches], label="test")
-    axs[1].plot(train_loss_list[::num_batches], label="train")
-    axs[1].set_xlabel("Training step")
-    axs[1].set_title("End of epoch error")
-    axs[1].legend()
-
-    plt.tight_layout()
-    plt.show()

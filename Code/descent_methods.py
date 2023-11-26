@@ -34,12 +34,20 @@ def _SGD_general(
     batch_size=32,
     test_loss_func=None,
     gamma=0.0,
+    intermediate_epochs=None
 ):
+    """
+    
+    intermediate_epochs : list of epochs to store the result of
+    """
+
     # Get parameter keys
     keys = beta0.keys()
 
     # Initialise result storage
     result = {}
+    if intermediate_epochs is not None:
+        result["beta_intermediate"] = []
     if test_loss_func is not None:
         if type(test_loss_func) is list:
             result["train_loss_list"] = [
@@ -65,6 +73,10 @@ def _SGD_general(
 
     # Perform training
     for epoch in tqdm(range(n_epochs)):
+
+        # Store beta if desired by user:
+        if intermediate_epochs is not None and epoch in intermediate_epochs:
+            result["beta_intermediate"].append(beta_current)
 
         # Accumulation variables
         tools = init_func(epoch, gamma, v)
@@ -179,6 +191,7 @@ def SGD_adam(
     delta: float = 1e-8,
     beta1: float = 0.9,
     beta2: float = 0.99,
+    intermediate_epochs=None,
 ):
     init_func = init_adam(lr, beta0, beta1, beta2, delta)
 
@@ -195,4 +208,5 @@ def SGD_adam(
         batch_size=batch_size,
         test_loss_func=test_loss_func,
         gamma=gamma,
+        intermediate_epochs=intermediate_epochs,
     )
