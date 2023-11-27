@@ -168,7 +168,7 @@ def plot_grid_search_result(data):
         codes = [Path.MOVETO] + [Path.CURVE4 for _ in range(len(verts) - 1)]
 
         path = Path(verts, codes)
-        patch = patches.PathPatch(path, facecolor='none', lw=1.5, alpha=1, edgecolor=colors[j])
+        patch = patches.PathPatch(path, facecolor='none', lw=1.5, alpha=0.7, edgecolor=colors[j])
         host.add_patch(patch)
 
     cax = fig.add_axes([0.95, 0.06, 0.02, 0.7])

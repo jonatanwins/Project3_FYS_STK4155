@@ -119,6 +119,63 @@ def _SGD_general(
     return result
 
 ############################
+####### SGD
+############################
+def init_SGD(lr):
+    tools = {
+        "lr": lr,
+    }
+
+    return lambda epoch, gamma, v: tools | {"epoch": epoch, "gamma": gamma, "v": v}
+
+
+def step_SGD(beta_prev, variables, gradients):
+    new_beta = {}
+
+    for key in beta_prev.keys():
+        # SGD step
+        update = variables["lr"] * gradients[key]
+
+        # Perform step, if gamma != 0 it is done with momentum...
+        variables["v"][key] = variables["gamma"] * variables["v"][key] + update
+        new_beta[key] = beta_prev[key] - variables["v"][key]
+
+    return new_beta, variables
+
+
+def SGD(
+    X_train,
+    y_train,
+    X_test,
+    y_test,
+    grad_method,
+    beta0: dict,
+    n_epochs: int = 50,
+    batch_size: int = 32,
+    test_loss_func=None,
+    lr: float = 0.01,
+    gamma: float = 0.0,
+    intermediate_epochs=None,
+):
+    init_func = init_SGD(lr)
+
+    return _SGD_general(
+        X_train,
+        y_train,
+        X_test,
+        y_test,
+        grad_method,
+        init_func,
+        step_adam,
+        beta0,
+        n_epochs=n_epochs,
+        batch_size=batch_size,
+        test_loss_func=test_loss_func,
+        gamma=gamma,
+        intermediate_epochs=intermediate_epochs,
+    )
+
+############################
 ####### Adam
 ############################
 def init_adam(lr, weights, beta1, beta2, delta):
@@ -143,7 +200,7 @@ def step_adam(beta_prev, adam_variables, gradients):
     new_beta = {}
 
     for key in beta_prev.keys():
-        # Accumulate and compute firsr and second term
+        # Accumulate and compute first and second term
         adam_variables["s"][key] = (
             adam_variables["beta1"] * adam_variables["s"][key]
             + (1 - adam_variables["beta1"]) * gradients[key]
