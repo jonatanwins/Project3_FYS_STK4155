@@ -14,11 +14,17 @@ from Code.utilities import predict
 ############################################
 def plot_some_imgs(X_test, y_test):
 
+
+
     for i, image in enumerate(X_test[0:5]):
         plt.subplot(1, 5, i+1)
         plt.axis('off')
-        n = int((image.shape[0])**(1/2))
-        plt.imshow(image.reshape(n,n), cmap=plt.cm.gray_r, interpolation='nearest')
+
+        if len(image.shape) == 2:
+            plt.imshow(image, cmap=plt.cm.gray_r, interpolation='nearest')
+        else:
+            n = int((image.shape[0])**(1/2))
+            plt.imshow(image.reshape(n,n), cmap=plt.cm.gray_r, interpolation='nearest')
         plt.title(f"Label: {np.argmax(y_test[i])}")
     plt.show()
 
@@ -181,24 +187,16 @@ def plot_grid_search_result(data):
 ############################################
 ### Plot a training run
 ############################################
-def plot_test_results(test_loss_list, train_loss_list, num_batches, ylabel="INSERT"):
-    # Create a figure with two subplots
-    fig, axs = plt.subplots(1, 2, figsize=(9, 3))  # 1 row, 2 columns
+def plot_test_results(test_loss_list, train_loss_list, ylabel="INSERT"):
 
-    # Subplot 1
-    axs[0].plot(test_loss_list, label="test")
-    axs[0].plot(train_loss_list, label="train")
-    axs[0].set_xlabel("Training step")
-    axs[0].set_ylabel(ylabel)
-    axs[0].set_title("Over all sub-epochs")
-    axs[0].legend()
+    fig, ax = plt.subplots(1, 1, figsize=(6, 3))  # 1 row, 2 columns
 
-    # Subplot 2
-    axs[1].plot(test_loss_list[::num_batches], label="test")
-    axs[1].plot(train_loss_list[::num_batches], label="train")
-    axs[1].set_xlabel("Training step")
-    axs[1].set_title("End of epoch error")
-    axs[1].legend()
+    ax.plot(test_loss_list, label="test")
+    ax.plot(train_loss_list, label="train")
+    ax.set_xlabel("Training step")
+    ax.set_ylabel(ylabel)
+    ax.set_title("End of epoch error")
+    ax.legend()
 
     plt.tight_layout()
     plt.show()
