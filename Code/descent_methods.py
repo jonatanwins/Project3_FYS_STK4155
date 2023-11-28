@@ -93,22 +93,23 @@ def _SGD_general(
             # Perform a step with desired method
             beta_current, tools = step_func(beta_current, tools, gradients)
 
-            if test_loss_func is not None:
-                if type(test_loss_func) is list:
-                    for i, test_func in enumerate(test_loss_func):
-                        result["train_loss_list"][i].append(
-                            test_func(beta_current, X_train, y_train)
-                        )
-                        result["test_loss_list"][i].append(
-                            test_func(beta_current, X_test, y_test)
-                        )
-                else:
-                    result["train_loss_list"].append(
-                        test_loss_func(beta_current, X_train, y_train)
+        # Compute end of epoch error
+        if test_loss_func is not None:
+            if type(test_loss_func) is list:
+                for i, test_func in enumerate(test_loss_func):
+                    result["train_loss_list"][i].append(
+                        test_func(beta_current, X_train, y_train)
                     )
-                    result["test_loss_list"].append(
-                        test_loss_func(beta_current, X_test, y_test)
+                    result["test_loss_list"][i].append(
+                        test_func(beta_current, X_test, y_test)
                     )
+            else:
+                result["train_loss_list"].append(
+                    test_loss_func(beta_current, X_train, y_train)
+                )
+                result["test_loss_list"].append(
+                    test_loss_func(beta_current, X_test, y_test)
+                )
 
         gamma = tools["gamma"]
         v = tools["v"]

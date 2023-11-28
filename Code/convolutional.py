@@ -1,6 +1,7 @@
 from jax import nn
 from Code.utilities import MSELoss_method
 from Code.descent_methods import SGD_adam
+from Code.softmax_regression import softmax
 
 import numpy as np
 import jax.numpy as jnp
@@ -57,7 +58,8 @@ def convolutional_model_old(beta, X):
         i += 1
     out = jnp.resize(out, (out.shape[0], out.shape[1]*out.shape[2]))
     out = (jnp.dot(out, beta["W_out"]) + beta["b_out"])
-    return out
+    
+    return softmax(out)
 
 #a = '[:, :-beta["conv{i}"].shape[1]+1, :-beta["conv{i}"].shape[1]+1]/(beta["conv{i}"].shape[1]**2.0)'
 
