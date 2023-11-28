@@ -1,4 +1,5 @@
 import jax.numpy as jnp
+from jax import jit
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -15,7 +16,7 @@ def predict(model, beta, X):
     y = model(beta, X)
 
     # Find best guess index
-    predictions = jnp.array([jnp.argmax(y_sample) for y_sample in y])
+    predictions = jnp.eye(y.shape[1])[jnp.argmax(y, axis=1)]
 
     return predictions
 
@@ -24,12 +25,15 @@ def accuracy_func(model, beta, X, y):
     """
     ACCURACY = percentage guessed correctly    
     """
-    # Find indeces corresponding to ground truth
-    predictions_gt = np.array([np.argmax(y_sample) for y_sample in y])
+
     predictions    = predict(model, beta, X)
 
-    # return 1-jnp.mean(jnp.abs(predictions_gt-predictions))
-    return float(np.sum(predictions_gt == predictions) / predictions.shape[0])
+    # Divide by 2 because we count errors twice
+    return 1 - jnp.sum(predictions != y) / (2*y.shape[0])
+
+
+def accuracy_func_method(model):
+    return lambda beta, X, y : accuracy_func(model, beta, X, y)
 
 ##################################################
 ##################### Loss functions

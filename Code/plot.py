@@ -156,6 +156,9 @@ def plot_grid_search_result(data):
             if i == len(axes) - 1:  # Exclude ticks and labels for the rightmost axis
                 ax.set_yticks([])  # Remove ticks
                 ax.set_yticklabels([])  # Remove tick labels
+            
+            if list(ynames)[i] == "Regularisation":
+                ax.set_yscale("log")  # Remove tick labels
 
     # Customise axis
     host.set_xlim(0, ys.shape[1] - 1)

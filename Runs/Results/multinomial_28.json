@@ -2878,3 +2878,13 @@
   "train_num": 60000,
   "test_num": 10000
 },
+{
+  "test_accuracy": 0.9075000286102295,
+  "train_accuracy": 0.9096999764442444,
+  "lr": 0.01,
+  "lam": 0.0001,
+  "epochs": 100,
+  "batch_size": 64,
+  "train_num": 60000,
+  "test_num": 10000
+},
