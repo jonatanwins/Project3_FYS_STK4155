@@ -26,10 +26,10 @@ def accuracy_func(model, beta, X, y):
     ACCURACY = percentage guessed correctly    
     """
 
-    predictions    = predict(model, beta, X)
+    predictions = predict(model, beta, X)
 
     # Do not div by 2, since errors are not countet twice
-    return 1 - jnp.sum(predictions != y) / (y.shape[0])
+    return 1 - jnp.sum(predictions != y) / (2*y.shape[0])
 
 
 def accuracy_func_method(model):
