@@ -2,6 +2,8 @@ import jax.numpy as jnp
 import numpy as np
 from tqdm.auto import tqdm
 
+from collections import OrderedDict
+
 
 # Used to pick batches
 def partition(X, y, batch_size):
@@ -198,7 +200,7 @@ def init_adam(lr, weights, beta1, beta2, delta):
 
 
 def step_adam(beta_prev, adam_variables, gradients):
-    new_beta = {}
+    new_beta = OrderedDict()
 
     for key in beta_prev.keys():
         # Accumulate and compute first and second term
