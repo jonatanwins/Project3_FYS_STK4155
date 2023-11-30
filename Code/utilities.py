@@ -28,7 +28,7 @@ def accuracy_func(model, beta, X, y):
 
     predictions = predict(model, beta, X)
 
-    # Do not div by 2, since errors are not countet twice
+    # Div by 2
     return 1 - jnp.sum(predictions != y) / (2*y.shape[0])
 
 
