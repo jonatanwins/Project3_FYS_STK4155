@@ -14,8 +14,6 @@ from Code.utilities import predict
 ############################################
 def plot_some_imgs(X_test, y_test):
 
-
-
     for i, image in enumerate(X_test[0:5]):
         plt.subplot(1, 5, i+1)
         plt.axis('off')
@@ -25,31 +23,35 @@ def plot_some_imgs(X_test, y_test):
         else:
             n = int((image.shape[0])**(1/2))
             plt.imshow(image.reshape(n,n), cmap=plt.cm.gray_r, interpolation='nearest')
+        
         plt.title(f"Label: {np.argmax(y_test[i])}")
     plt.show()
 
 def plot_faulty_predictions(X_test, y_test, model, beta):
 
     # Example true labels and predicted labels
-    nums_pred = predict(model, beta, X_test)
-    nums_gt   = np.array([np.argmax(y_sample) for y_sample in y_test])
+    nums_pred = np.argmax(predict(model, beta, X_test), axis=1)
+    nums_gt   = np.argmax(y_test, axis=1)
 
-    # Format the faulty predictions back
+    # Get the faulty predictions
     indeces = nums_gt != nums_pred
-    if X_test.shape[1] not in [8, 28]:
-        n = int(np.sqrt(X_test.shape[1]))
-        imgs = [img.reshape(n, n) for img in X_test[indeces]]
-    else:
-        imgs = X_test[indeces]
+
+    imgs = X_test[indeces]
     labels_pred = nums_pred[indeces]
     labels_gt   = nums_gt[indeces]
 
     # Plot the 5 first
-    for i, img in enumerate(imgs[0:5]):
+    for i, image in enumerate(imgs[0:5]):
 
         plt.subplot(1, 5, i+1)
         plt.axis('off')
-        plt.imshow(img, cmap=plt.cm.gray_r, interpolation='nearest')
+
+        if len(image.shape) == 2:
+            plt.imshow(image, cmap=plt.cm.gray_r, interpolation='nearest')
+        else:
+            n = int((image.shape[0])**(1/2))
+            plt.imshow(image.reshape(n,n), cmap=plt.cm.gray_r, interpolation='nearest')
+            
         plt.title(f"Label: {labels_gt[i]} \nPredicted: {labels_pred[i]}", size=12)
 
     plt.show()
@@ -61,11 +63,11 @@ def plot_faulty_predictions(X_test, y_test, model, beta):
 def plot_confusion_matrix(X_test, y_test, model, beta, filename=None, convert_to_percent=False, title="Confusion matrix"):
 
     # Initialise the figure
-    plt.figure(figsize=(10, 8))
+    plt.figure(figsize=(15,13))
 
     # Example true labels and predicted labels
-    nums_pred = predict(model, beta, X_test)
-    nums_gt   = np.array([np.argmax(y_sample) for y_sample in y_test])
+    nums_pred = np.argmax(predict(model, beta, X_test), axis=1)
+    nums_gt   = np.argmax(y_test, axis=1)
 
     # Create confusion matrix. If desired, convert to percentage
     conf_matrix = confusion_matrix(nums_gt, nums_pred)
@@ -82,6 +84,7 @@ def plot_confusion_matrix(X_test, y_test, model, beta, filename=None, convert_to
     plt.xlabel("Predicted Labels")
     plt.ylabel("True Labels")
     plt.title(title)
+    plt.tight_layout()
     if filename:
         plt.savefig(filename)
     plt.show()
