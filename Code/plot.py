@@ -81,7 +81,7 @@ def plot_confusion_matrix(X_test, y_test, model, beta, filename=None, convert_to
         sns.heatmap(conf_matrix, annot=True, cmap="Blues", square=True,
                     xticklabels=np.arange(10), yticklabels=np.arange(10))
 
-    plt.xlabel("Predicted Labels")
+    plt.xlabel("Predicted Labels", fontsize=12)
     plt.ylabel("True Labels")
     plt.title(title)
     plt.tight_layout()
