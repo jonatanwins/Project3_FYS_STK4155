@@ -2,7 +2,7 @@
 
 ## Structure
 
-This is a repository for the second project in the course FYS-STK4155 - Applied Data Analysis and Machine Learning with the following structure:
+This is a repository for the third project in the course FYS-STK4155 - Applied Data Analysis and Machine Learning with the following structure:
 
 ├── Code # The code used in the project, including experiment functions with user friendly interface \
 ├── Report # A report of our results, methods, etc...\
